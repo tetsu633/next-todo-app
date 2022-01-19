@@ -56,7 +56,9 @@ const Todos = () => {
             <Link href={`todos/${todo.id}`}>
               <button>詳細</button>
             </Link>
-            <button>編集</button>
+            <Link href={`todos/${todo.id}/edit`}>
+              <button>編集</button>
+            </Link>
             <button>削除</button>
           </li>
         ))}
