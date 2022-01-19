@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,3 +14,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+// create todo data
+export const pushTodoData = async () => {
+  try {
+    await setDoc(doc(db, "todos", "1"), {
+      title: "dummy",
+      detail: "dummyをやる",
+      status: "未完了",
+      term: "2022-01-18",
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};

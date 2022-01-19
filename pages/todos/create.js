@@ -1,6 +1,13 @@
 import Link from "next/link";
 
+import { pushTodoData } from "../../firebase";
+
 const CreateTodo = () => {
+  const pushTodo = (e) => {
+    e.preventDefault();
+    pushTodoData();
+  };
+
   return (
     <>
       <form>
@@ -20,7 +27,7 @@ const CreateTodo = () => {
         <Link href="/todos">
           <button>戻る</button>
         </Link>
-        <button onClick={(e) => e.preventDefault()}>作成</button>
+        <button onClick={(e) => pushTodo(e)}>作成</button>
       </form>
     </>
   );
