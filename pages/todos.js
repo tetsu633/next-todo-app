@@ -53,7 +53,9 @@ const Todos = () => {
             <p>{todo.title}</p>
             <p>{todo.status}</p>
             <p>{todo.term}</p>
-            <button>詳細</button>
+            <Link href={`todos/${todo.id}`}>
+              <button>詳細</button>
+            </Link>
             <button>編集</button>
             <button>削除</button>
           </li>
