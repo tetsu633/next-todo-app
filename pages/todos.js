@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const dummyTodoData = [
   {
     id: 1,
@@ -27,7 +29,9 @@ const Todos = () => {
     <div>
       <header>
         <p>Todo一覧</p>
-        <button>create</button>
+        <Link href="/todos/create">
+          <button>create</button>
+        </Link>
       </header>
       <div>
         <div>
