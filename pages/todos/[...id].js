@@ -1,43 +1,20 @@
 import Link from "next/link";
+import { getTodoData } from "../../firebase";
 
-const dummyTodosData = [
-  {
-    id: 1,
-    title: "task1",
-    detail: "task1をやる",
-    status: "完了",
-    term: "2022-01-16",
-  },
-  {
-    id: 2,
-    title: "task2",
-    detail: "task2をやる",
-    status: "途中",
-    term: "2022-01-17",
-  },
-  {
-    id: 3,
-    title: "task3",
-    detail: "task3をやる",
-    status: "未完了",
-    term: "2022-01-18",
-  },
-];
-
-const Post = ({ id }) => {
-  return id.length === 1 ? <Detail /> : <Edit />;
+const Post = ({ paths, todo }) => {
+  return paths.length === 1 ? <Detail todo={todo} /> : <Edit />;
 };
 
-const Detail = () => {
+const Detail = ({ todo }) => {
   return (
     <div>
       <dl>
         <dt>title</dt>
-        <dd>{dummyTodosData[0].title}</dd>
+        <dd>{todo.title}</dd>
         <dt>detail</dt>
-        <dd>{dummyTodosData[0].detail}</dd>
+        <dd>{todo.detail}</dd>
         <dt>status</dt>
-        <dd>{dummyTodosData[0].status}</dd>
+        <dd>{todo.status}</dd>
       </dl>
       <Link href="/todos">
         <button>戻る</button>
@@ -74,10 +51,16 @@ const Edit = () => {
   );
 };
 
-export const getServerSideProps = (context) => {
-  const { id } = context.params;
+export const getServerSideProps = async (context) => {
+  const paths = context.params.id;
+  const todoId = paths[0];
+  const todo = await getTodoData(todoId);
+
   return {
-    props: { id },
+    props: {
+      paths,
+      todo,
+    },
   };
 };
 

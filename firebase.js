@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  addDoc,
+  query,
+  where,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -31,14 +38,29 @@ export const pushTodoData = async () => {
   }
 };
 
-// get todo data
-export const getTodoData = async () => {
+// get todos data
+export const getTodosData = async () => {
   const querySnapshot = await getDocs(collection(db, "todos")).then((res) => {
     if (res) {
       const todos = res.docs.map((doc) => doc.data());
       return todos;
     } else {
       console.log("Something wrong with fetching firebase");
+      return null;
+    }
+  });
+  return querySnapshot;
+};
+
+// get todo data
+export const getTodoData = async (todoId) => {
+  const q = query(collection(db, "todos"), where("id", "==", Number(todoId)));
+  const querySnapshot = await getDocs(q).then((res) => {
+    if (res) {
+      const todo = res.docs.shift().data();
+      return todo;
+    } else {
+      console.log("No such document");
       return null;
     }
   });

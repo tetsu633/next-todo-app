@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getTodoData } from "../firebase";
+import { getTodosData } from "../firebase";
 
 const Todos = ({ todos }) => {
   return (
@@ -47,7 +47,7 @@ const Todos = ({ todos }) => {
 };
 
 export const getServerSideProps = async () => {
-  const todos = await getTodoData();
+  const todos = await getTodosData();
   return {
     props: { todos },
   };
