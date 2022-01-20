@@ -1,10 +1,14 @@
 import Link from "next/link";
-import { getTodoData } from "../../firebase";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+import { getTodoData, updateTodoData } from "../../firebase";
 
 const Post = ({ paths, todo }) => {
-  return paths.length === 1 ? <Detail todo={todo} /> : <Edit />;
+  return paths.length === 1 ? <Detail todo={todo} /> : <Edit todo={todo} />;
 };
 
+// 詳細画面
 const Detail = ({ todo }) => {
   return (
     <div>
@@ -20,32 +24,65 @@ const Detail = ({ todo }) => {
         <button>戻る</button>
       </Link>
       <button>削除</button>
-      <button>編集</button>
+      <Link href={`${todo.id}/edit`}>
+        <button>編集</button>
+      </Link>
     </div>
   );
 };
 
-const Edit = () => {
+// 編集画面
+const Edit = (props) => {
+  const [todo, setTodo] = useState(props.todo);
+  const router = useRouter();
+
   return (
     <div>
       <form>
         <label htmlFor="title">title</label>
-        <input id="title" type="text" />
+        <input
+          id="title"
+          type="text"
+          value={todo.title}
+          onChange={(e) => setTodo({ ...todo, title: e.target.value })}
+        />
         <br />
         <label htmlFor="detail">detail</label>
-        <textarea id="detail" cols="30" rows="10"></textarea>
+        <textarea
+          id="detail"
+          cols="30"
+          rows="10"
+          value={todo.detail}
+          onChange={(e) => setTodo({ ...todo, detail: e.target.value })}
+        ></textarea>
         <br />
         <label>status</label>
-        <select defaultValue="未完了">
+        <select
+          defaultValue={todo.status}
+          onChange={(e) => setTodo({ ...todo, status: e.target.value })}
+        >
           <option value="完了">完了</option>
           <option value="途中">途中</option>
           <option value="未完了">未完了</option>
         </select>
         <br />
-        <Link href="/todos">
-          <button>戻る</button>
-        </Link>
-        <button>保存</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            router.back();
+          }}
+        >
+          戻る
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            updateTodoData(todo.docId, todo);
+            router.push("/todos");
+          }}
+        >
+          保存
+        </button>
       </form>
     </div>
   );

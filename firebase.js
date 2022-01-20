@@ -6,6 +6,8 @@ import {
   addDoc,
   query,
   where,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -57,7 +59,10 @@ export const getTodoData = async (todoId) => {
   const q = query(collection(db, "todos"), where("id", "==", Number(todoId)));
   const querySnapshot = await getDocs(q).then((res) => {
     if (res) {
-      const todo = res.docs.shift().data();
+      const todo = {
+        docId: res.docs.shift().id,
+        ...res.docs.shift().data(),
+      };
       return todo;
     } else {
       console.log("No such document");
@@ -65,4 +70,15 @@ export const getTodoData = async (todoId) => {
     }
   });
   return querySnapshot;
+};
+
+// update todo data
+export const updateTodoData = async (docId, todo) => {
+  const newTodoData = {
+    title: todo.title,
+    detail: todo.detail,
+    status: todo.status,
+  };
+  const todoRef = doc(db, "todos", docId);
+  await updateDoc(todoRef, newTodoData);
 };

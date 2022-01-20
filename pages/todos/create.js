@@ -1,13 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { pushTodoData } from "../../firebase";
 
+// 作成画面
 const CreateTodo = () => {
-  const pushTodo = (e) => {
-    e.preventDefault();
-    pushTodoData();
-  };
-
+  const router = useRouter();
   return (
     <>
       <form>
@@ -27,7 +25,15 @@ const CreateTodo = () => {
         <Link href="/todos">
           <button>戻る</button>
         </Link>
-        <button onClick={(e) => pushTodo(e)}>作成</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            pushTodoData();
+            router.push("/todos");
+          }}
+        >
+          作成
+        </button>
       </form>
     </>
   );
