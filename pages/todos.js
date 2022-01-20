@@ -1,30 +1,8 @@
 import Link from "next/link";
 
-const dummyTodoData = [
-  {
-    id: 1,
-    title: "task1",
-    detail: "task1をやる",
-    status: "完了",
-    term: "2022-01-16",
-  },
-  {
-    id: 2,
-    title: "task2",
-    detail: "task2をやる",
-    status: "途中",
-    term: "2022-01-17",
-  },
-  {
-    id: 3,
-    title: "task3",
-    detail: "task3をやる",
-    status: "未完了",
-    term: "2022-01-18",
-  },
-];
+import { getTodoData } from "../firebase";
 
-const Todos = () => {
+const Todos = ({ todos }) => {
   return (
     <div>
       <header>
@@ -48,23 +26,31 @@ const Todos = () => {
         </div>
       </div>
       <ul>
-        {dummyTodoData.map((todo) => (
-          <li key={todo.id}>
-            <p>{todo.title}</p>
-            <p>{todo.status}</p>
-            <p>{todo.term}</p>
-            <Link href={`todos/${todo.id}`}>
-              <button>詳細</button>
-            </Link>
-            <Link href={`todos/${todo.id}/edit`}>
-              <button>編集</button>
-            </Link>
-            <button>削除</button>
-          </li>
-        ))}
+        {todos !== null &&
+          todos.map((todo) => (
+            <li key={todo.id}>
+              <p>{todo.title}</p>
+              <p>{todo.status}</p>
+              <p>{todo.term}</p>
+              <Link href={`todos/${todo.id}`}>
+                <button>詳細</button>
+              </Link>
+              <Link href={`todos/${todo.id}/edit`}>
+                <button>編集</button>
+              </Link>
+              <button>削除</button>
+            </li>
+          ))}
       </ul>
     </div>
   );
+};
+
+export const getServerSideProps = async () => {
+  const todos = await getTodoData();
+  return {
+    props: { todos },
+  };
 };
 
 export default Todos;
