@@ -36,6 +36,13 @@ const Edit = (props) => {
   const [todo, setTodo] = useState(props.todo);
   const router = useRouter();
 
+  // 保存ボタン押下時の処理
+  const onClickUpdateButton = async (e) => {
+    e.preventDefault();
+    await updateTodoData(todo.docId, todo);
+    router.push("/todos");
+  };
+
   return (
     <div>
       <form>
@@ -76,9 +83,7 @@ const Edit = (props) => {
         </button>
         <button
           onClick={(e) => {
-            e.preventDefault();
-            updateTodoData(todo.docId, todo);
-            router.push("/todos");
+            onClickUpdateButton(e);
           }}
         >
           保存
