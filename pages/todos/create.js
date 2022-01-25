@@ -2,7 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { pushTodoData } from "../../firebase";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 // 作成画面
 const CreateTodo = () => {
@@ -17,9 +18,23 @@ const CreateTodo = () => {
   // 追加ボタン押下時の処理
   const onClickAddButton = async (e) => {
     e.preventDefault();
-    await pushTodoData(todo);
-    router.push("/todos");
+
+    // IDの最大値を取得
+    const lastId = await getDocs(collection(db, "todos")).then((res) => {
+      const id = res.docs.map((doc) => doc.data().id);
+      return Math.max(id);
+    });
+
+    const newTodo = { ...todo, id: lastId + 1 };
+    try {
+      await addDoc(collection(db, "todos"), newTodo)
+        .then(router.push("/todos"))
+        .catch((e) => console.log(e));
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   return (
     <>
       <form>

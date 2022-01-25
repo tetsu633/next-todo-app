@@ -1,8 +1,28 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { getTodosData } from "../firebase";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
-const Todos = ({ todos }) => {
+const Todos = () => {
+  const [todos, setTodos] = useState(null);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "todos"), (querySnapshot) => {
+      setTodos(
+        querySnapshot.docs.map((doc) => {
+          return { docId: doc.id, ...doc.data() };
+        })
+      );
+    });
+    return () => unsub();
+  }, []);
+
+  // Todoの削除
+  const onClickDeleteButton = async (docId) => {
+    await deleteDoc(doc(db, "todos", docId));
+  };
+
   return (
     <div>
       <header>
@@ -38,19 +58,18 @@ const Todos = ({ todos }) => {
               <Link href={`todos/${todo.id}/edit`}>
                 <button>編集</button>
               </Link>
-              <button>削除</button>
+              <button
+                onClick={() => {
+                  onClickDeleteButton(todo.docId);
+                }}
+              >
+                削除
+              </button>
             </li>
           ))}
       </ul>
     </div>
   );
-};
-
-export const getServerSideProps = async () => {
-  const todos = await getTodosData();
-  return {
-    props: { todos },
-  };
 };
 
 export default Todos;

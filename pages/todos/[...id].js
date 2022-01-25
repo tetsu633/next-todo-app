@@ -2,7 +2,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { getTodoData, updateTodoData } from "../../firebase";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Post = ({ paths, todo }) => {
   return paths.length === 1 ? <Detail todo={todo} /> : <Edit todo={todo} />;
@@ -10,6 +19,15 @@ const Post = ({ paths, todo }) => {
 
 // 詳細画面
 const Detail = ({ todo }) => {
+  const router = useRouter();
+
+  // delete todo
+  const onClickDeleteButton = async (docId) => {
+    await deleteDoc(doc(db, "todos", docId)).then(
+      router.push("/todos").catch((e) => console.log(e))
+    );
+  };
+
   return (
     <div>
       <dl>
@@ -23,7 +41,7 @@ const Detail = ({ todo }) => {
       <Link href="/todos">
         <button>戻る</button>
       </Link>
-      <button>削除</button>
+      <button onClick={() => onClickDeleteButton(todo.docId)}>削除</button>
       <Link href={`${todo.id}/edit`}>
         <button>編集</button>
       </Link>
@@ -39,8 +57,16 @@ const Edit = (props) => {
   // 保存ボタン押下時の処理
   const onClickUpdateButton = async (e) => {
     e.preventDefault();
-    await updateTodoData(todo.docId, todo);
-    router.push("/todos");
+
+    const newTodo = {
+      title: todo.title,
+      detail: todo.detail,
+      status: todo.status,
+    };
+
+    await updateDoc(doc(db, "todos", todo.docId), newTodo).then(
+      router.push("/todos").catch((e) => console.log(e))
+    );
   };
 
   return (
@@ -96,7 +122,16 @@ const Edit = (props) => {
 export const getServerSideProps = async (context) => {
   const paths = context.params.id;
   const todoId = paths[0];
-  const todo = await getTodoData(todoId);
+
+  const q = query(collection(db, "todos"), where("id", "==", Number(todoId)));
+  const todo = await getDocs(q)
+    .then((res) => {
+      return { docId: res.docs.shift().id, ...res.docs.shift().data() };
+    })
+    .catch((e) => {
+      console.log(e);
+      return null;
+    });
 
   return {
     props: {
