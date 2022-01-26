@@ -1,22 +1,12 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import AppContext from "../store/context";
 
 const Todos = () => {
-  const [todos, setTodos] = useState(null);
-
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, "todos"), (querySnapshot) => {
-      setTodos(
-        querySnapshot.docs.map((doc) => {
-          return { docId: doc.id, ...doc.data() };
-        })
-      );
-    });
-    return () => unsub();
-  }, []);
+  const { todos } = useContext(AppContext);
 
   // Todoの削除
   const onClickDeleteButton = async (docId) => {
@@ -46,7 +36,7 @@ const Todos = () => {
         </div>
       </div>
       <ul>
-        {todos !== null &&
+        {todos !== undefined &&
           todos.map((todo) => (
             <li key={todo.id}>
               <p>{todo.title}</p>

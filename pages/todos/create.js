@@ -22,7 +22,7 @@ const CreateTodo = () => {
     // IDの最大値を取得
     const lastId = await getDocs(collection(db, "todos")).then((res) => {
       const id = res.docs.map((doc) => doc.data().id);
-      return Math.max(id);
+      return id.length !== 0 ? Math.max(...id) : 0;
     });
 
     const newTodo = { ...todo, id: lastId + 1 };
