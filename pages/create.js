@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { addDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 
 // 作成画面
 const CreateTodo = () => {
@@ -28,7 +28,7 @@ const CreateTodo = () => {
     const newTodo = { ...todo, id: lastId + 1 };
     try {
       await addDoc(collection(db, "todos"), newTodo)
-        .then(router.push("/todos"))
+        .then(router.push("/"))
         .catch((e) => console.log(e));
     } catch (e) {
       console.log(e);
@@ -63,7 +63,7 @@ const CreateTodo = () => {
           <option value="未完了">未完了</option>
         </select>
         <br />
-        <Link href="/todos">
+        <Link href="/">
           <button>戻る</button>
         </Link>
         <button

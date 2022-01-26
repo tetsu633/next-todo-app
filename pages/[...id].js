@@ -1,5 +1,5 @@
-import Detail from "../../components/pages/Detail";
-import Edit from "../../components/pages/edit";
+import Detail from "../components/pages/detail";
+import Edit from "../components/pages/edit";
 
 const Post = ({ paths, todoId }) => {
   return paths.length === 1 ? (

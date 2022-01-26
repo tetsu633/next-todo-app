@@ -5,12 +5,13 @@ import { db } from "../../firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import AppContext from "../../store/context";
 
-const Edit = ({ todoId }) => {
+const Edit = () => {
   const { todos } = useContext(AppContext);
   const [todo, setTodo] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
+    const todoId = router.query.id.shift();
     const index = todos.findIndex((todo) => todo.id === Number(todoId));
     setTodo(todos[index]);
   }, []);
@@ -26,7 +27,7 @@ const Edit = ({ todoId }) => {
     };
 
     await updateDoc(doc(db, "todos", todo.docId), newTodo).then(
-      router.push("/todos").catch((e) => console.log(e))
+      router.push("/").catch((e) => console.log(e))
     );
   };
 
