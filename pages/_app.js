@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import AppContext from "../store/context";
 import { onSnapshot, collection } from "firebase/firestore";
@@ -19,9 +19,11 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ todos }}>
-      <Component {...pageProps} />
-    </AppContext.Provider>
+    <React.StrictMode>
+      <AppContext.Provider value={{ todos }}>
+        <Component {...pageProps} />
+      </AppContext.Provider>
+    </React.StrictMode>
   );
 };
 
