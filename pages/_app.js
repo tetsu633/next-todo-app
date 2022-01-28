@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import AppContext from "../store/context";
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "../firebase";
+import { ChakraProvider } from "@chakra-ui/provider";
 
 const App = ({ Component, pageProps }) => {
   const [todos, setTodos] = useState();
@@ -21,7 +22,9 @@ const App = ({ Component, pageProps }) => {
   return (
     <React.StrictMode>
       <AppContext.Provider value={{ todos }}>
-        <Component {...pageProps} />
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </AppContext.Provider>
     </React.StrictMode>
   );
