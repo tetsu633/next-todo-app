@@ -1,10 +1,22 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
 import { db } from "../../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import AppContext from "../../store/context";
+import {
+  Box,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Stack,
+} from "@chakra-ui/react";
+import Header from "../header";
+import ReturnButton from "../button/return-button";
+import DeleteButton from "../button/delete-button";
+import EditButton from "../button/edit-button";
 
 const Detail = ({ todoId }) => {
   const { todos } = useContext(AppContext);
@@ -23,28 +35,51 @@ const Detail = ({ todoId }) => {
     );
   };
 
+  // 戻るボタン押下時の処理
+  const onClickReturnButton = (e) => {
+    e.preventDefault();
+    router.push("/");
+  };
+
   return (
-    <div>
+    <Box>
+      <Header />
       {todo !== undefined && todo !== null && (
         <>
-          <dl>
-            <dt>title</dt>
-            <dd>{todo.title}</dd>
-            <dt>detail</dt>
-            <dd>{todo.detail}</dd>
-            <dt>status</dt>
-            <dd>{todo.status}</dd>
-          </dl>
-          <Link href="/">
-            <button>戻る</button>
-          </Link>
-          <button onClick={() => onClickDeleteButton(todo.docId)}>削除</button>
-          <Link href={`/${todo.id}/edit`}>
-            <button>編集</button>
-          </Link>
+          <Stack>
+            <FormControl isReadOnly>
+              <Flex px={16}>
+                <FormLabel w={16}>Title</FormLabel>
+                <Input value={todo.title} userSelect="none" />
+              </Flex>
+            </FormControl>
+            <FormControl isReadOnly>
+              <Flex px={16}>
+                <FormLabel w={16}>Detail</FormLabel>
+                <Textarea value={todo.detail} userSelect="none" />
+              </Flex>
+            </FormControl>
+            <FormControl isReadOnly>
+              <Flex px={16}>
+                <FormLabel w={16}>Status</FormLabel>
+                <Input w={32} value={todo.status} userSelect="none" />
+              </Flex>
+            </FormControl>
+            <Flex justifyContent="right">
+              <ReturnButton onClickEvent={(e) => onClickReturnButton(e)}>
+                戻る
+              </ReturnButton>
+              <DeleteButton
+                onClickEvent={() => onClickDeleteButton(todo.docId)}
+              >
+                削除
+              </DeleteButton>
+              <EditButton todoId={todo.id}>編集</EditButton>
+            </Flex>
+          </Stack>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
