@@ -9,12 +9,10 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  VStack,
   Input,
   Select,
   Textarea,
-  Spacer,
-  HStack,
+  Stack,
 } from "@chakra-ui/react";
 import Header from "../header";
 import ReturnButton from "../button/return-button";
@@ -56,7 +54,7 @@ const Edit = () => {
     <Box>
       <Header />
       {todo !== undefined && todo !== null && (
-        <VStack spacing={4}>
+        <Stack spacing={4}>
           <FormControl>
             <Flex px={16}>
               <FormLabel w={16} htmlFor="title">
@@ -96,16 +94,15 @@ const Edit = () => {
               </Select>
             </Flex>
           </FormControl>
-          <HStack>
+          <Flex justifyContent="right">
             <ReturnButton onClickEvent={(e) => onClickReturnButton(e)}>
               戻る
             </ReturnButton>
-            <Spacer />
             <SaveButton onClickEvent={(e) => onClickUpdateButton(e)}>
               保存
             </SaveButton>
-          </HStack>
-        </VStack>
+          </Flex>
+        </Stack>
       )}
     </Box>
   );
