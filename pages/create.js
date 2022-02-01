@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -14,9 +13,8 @@ import {
   Textarea,
   Stack,
 } from "@chakra-ui/react";
-import ReturnButton from "../components/button/return-button";
-import SaveButton from "../components/button/save-button";
 import Header from "../components/header";
+import SButton from "../components/button/base-button";
 
 // 作成画面
 const CreateTodo = () => {
@@ -98,12 +96,12 @@ const CreateTodo = () => {
           </Flex>
         </FormControl>
         <Flex justifyContent="right">
-          <ReturnButton onClickEvent={(e) => onClickReturnButton(e)}>
+          <SButton bg="blue" onClick={(e) => onClickReturnButton(e)}>
             戻る
-          </ReturnButton>
-          <SaveButton onClickEvent={(e) => onClickAddButton(e)}>
+          </SButton>
+          <SButton bg="blue" onClick={(e) => onClickAddButton(e)}>
             保存
-          </SaveButton>
+          </SButton>
         </Flex>
       </Stack>
     </Box>

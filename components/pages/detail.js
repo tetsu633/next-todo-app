@@ -14,9 +14,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import Header from "../header";
-import ReturnButton from "../button/return-button";
-import DeleteButton from "../button/delete-button";
-import EditButton from "../button/edit-button";
+import SButton from "../button/base-button";
 
 const Detail = ({ todoId }) => {
   const { todos } = useContext(AppContext);
@@ -36,8 +34,7 @@ const Detail = ({ todoId }) => {
   };
 
   // 戻るボタン押下時の処理
-  const onClickReturnButton = (e) => {
-    e.preventDefault();
+  const onClickReturnButton = () => {
     router.push("/");
   };
 
@@ -66,15 +63,18 @@ const Detail = ({ todoId }) => {
               </Flex>
             </FormControl>
             <Flex justifyContent="right">
-              <ReturnButton onClickEvent={(e) => onClickReturnButton(e)}>
+              <SButton bg="blue" onClick={() => onClickReturnButton()}>
                 戻る
-              </ReturnButton>
-              <DeleteButton
-                onClickEvent={() => onClickDeleteButton(todo.docId)}
-              >
+              </SButton>
+              <SButton bg="red" onClick={() => onClickDeleteButton(todo.docId)}>
                 削除
-              </DeleteButton>
-              <EditButton todoId={todo.id}>編集</EditButton>
+              </SButton>
+              <SButton
+                bg="green"
+                onClick={() => router.push(`/${todo.id}/edit`)}
+              >
+                編集
+              </SButton>
             </Flex>
           </Stack>
         </>

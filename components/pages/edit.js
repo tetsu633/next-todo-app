@@ -15,8 +15,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import Header from "../header";
-import ReturnButton from "../button/return-button";
-import SaveButton from "../button/save-button";
+import SButton from "../button/base-button";
 
 const Edit = () => {
   const { todos } = useContext(AppContext);
@@ -30,9 +29,7 @@ const Edit = () => {
   }, []);
 
   // 保存ボタン押下時の処理
-  const onClickUpdateButton = async (e) => {
-    e.preventDefault();
-
+  const onClickUpdateButton = async () => {
     const newTodo = {
       title: todo.title,
       detail: todo.detail,
@@ -45,8 +42,7 @@ const Edit = () => {
   };
 
   // 戻るボタン押下時の処理
-  const onClickReturnButton = (e) => {
-    e.preventDefault();
+  const onClickReturnButton = () => {
     router.back();
   };
 
@@ -95,12 +91,12 @@ const Edit = () => {
             </Flex>
           </FormControl>
           <Flex justifyContent="right">
-            <ReturnButton onClickEvent={(e) => onClickReturnButton(e)}>
+            <SButton bg="blue" onClick={() => onClickReturnButton()}>
               戻る
-            </ReturnButton>
-            <SaveButton onClickEvent={(e) => onClickUpdateButton(e)}>
+            </SButton>
+            <SButton bg="blue" onClick={() => onClickUpdateButton()}>
               保存
-            </SaveButton>
+            </SButton>
           </Flex>
         </Stack>
       )}

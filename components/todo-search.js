@@ -1,6 +1,7 @@
 import { useRef } from "react";
 
-import { Box, Input, Button } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
+import SButton from "./button/base-button";
 
 const TodoSearch = ({ props }) => {
   const { setFilterText } = props;
@@ -25,12 +26,12 @@ const TodoSearch = ({ props }) => {
         w={64}
         ref={inputElement}
       />
-      <Button mx={1} onClick={() => onClickFilterButton()}>
+      <SButton bg="gray" onClick={() => onClickFilterButton()}>
         検索
-      </Button>
-      <Button mx={1} onClick={() => onClickClearButton()}>
+      </SButton>
+      <SButton bg="gray" onClick={() => onClickClearButton()}>
         クリア
-      </Button>
+      </SButton>
     </Box>
   );
 };

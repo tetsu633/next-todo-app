@@ -1,13 +1,13 @@
-import { Tr, Td } from "@chakra-ui/react";
-
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import DeleteButton from "./button/delete-button";
-import EditButton from "./button/edit-button";
-import DetailButton from "./button/detail-button";
+import { Tr, Td } from "@chakra-ui/react";
+
+import SButton from "./button/base-button";
+import { useRouter } from "next/router";
 
 const TodoTableBody = (props) => {
   const { todos } = props;
+  const router = useRouter();
 
   // Todoの削除
   const onClickDeleteButton = async (docId) => {
@@ -22,13 +22,30 @@ const TodoTableBody = (props) => {
             <Td>{todo.title}</Td>
             <Td>{todo.status}</Td>
             <Td>
-              <DetailButton todoId={todo.id}>詳細</DetailButton>
-              <EditButton todoId={todo.id}>編集</EditButton>
-              <DeleteButton
-                onClickEvent={() => onClickDeleteButton(todo.docId)}
+              <SButton
+                bg="green"
+                onClick={() => {
+                  router.push(`/${todo.id}`);
+                }}
+              >
+                詳細
+              </SButton>
+              <SButton
+                bg="blue"
+                onClick={() => {
+                  router.push(`/${todo.id}/edit`);
+                }}
+              >
+                編集
+              </SButton>
+              <SButton
+                bg="red"
+                onClick={() => {
+                  onClickDeleteButton(todo.docId);
+                }}
               >
                 削除
-              </DeleteButton>
+              </SButton>
             </Td>
           </Tr>
         ))}
