@@ -13,15 +13,16 @@ import {
   Textarea,
   Stack,
 } from "@chakra-ui/react";
-import Header from "../header";
-import SButton from "../button/base-button";
+import Header from "../ui/header/header";
+import SButton from "../ui/button/base-button";
 
-const Detail = ({ todoId }) => {
+const Detail = () => {
   const { todos } = useContext(AppContext);
   const [todo, setTodo] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
+    const todoId = router.query.id.shift();
     const targetIndex = todos.findIndex((todo) => todo.id === Number(todoId));
     setTodo(todos[targetIndex]);
   }, []);

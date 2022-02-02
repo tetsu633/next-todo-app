@@ -13,8 +13,8 @@ import {
   Textarea,
   Stack,
 } from "@chakra-ui/react";
-import Header from "../components/header";
-import SButton from "../components/button/base-button";
+import Header from "../components/ui/header/header";
+import SButton from "../components/ui/button/base-button";
 
 // 作成画面
 const CreateTodo = () => {

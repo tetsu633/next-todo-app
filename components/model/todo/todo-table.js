@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import AppContext from "../store/context";
+import AppContext from "../../../store/context";
 import {
   Box,
   Table,

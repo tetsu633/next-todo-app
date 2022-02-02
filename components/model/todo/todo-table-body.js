@@ -1,9 +1,9 @@
-import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
-import { Tr, Td } from "@chakra-ui/react";
-
-import SButton from "./button/base-button";
 import { useRouter } from "next/router";
+
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { Tr, Td } from "@chakra-ui/react";
+import SButton from "../../ui/button/base-button";
 
 const TodoTableBody = (props) => {
   const { todos } = props;

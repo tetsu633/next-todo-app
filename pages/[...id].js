@@ -1,24 +1,13 @@
+import { useRouter } from "next/router";
+
 import Detail from "../components/pages/detail";
 import Edit from "../components/pages/edit";
 
-const Post = ({ paths, todoId }) => {
-  return paths.length === 1 ? (
-    <Detail todoId={todoId} />
-  ) : (
-    <Edit todoId={todoId} />
-  );
-};
+const Post = () => {
+  const router = useRouter();
+  const id = router.query.id;
 
-export const getServerSideProps = async (context) => {
-  const paths = context.params.id;
-  const todoId = paths[0];
-
-  return {
-    props: {
-      paths,
-      todoId,
-    },
-  };
+  return id.length === 1 ? <Detail /> : <Edit />;
 };
 
 export default Post;
