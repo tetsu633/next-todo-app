@@ -5,6 +5,7 @@ import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { ChakraProvider } from "@chakra-ui/provider";
 import { ColorModeProvider } from "@chakra-ui/react";
+import { theme } from "../theme";
 
 const App = ({ Component, pageProps }) => {
   const [todos, setTodos] = useState();
@@ -23,7 +24,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <React.StrictMode>
       <AppContext.Provider value={{ todos }}>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <ColorModeProvider
             options={{ initialColorMode: true, useSystemColorMode: false }}
           />
