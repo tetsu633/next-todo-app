@@ -1,7 +1,14 @@
-import SignInPage from "../components/pages/signIn";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const Index = () => {
-  return <SignInPage />;
+  const [currentUser, setCurrentUser] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    currentUser === "" && router.push("/signup");
+  }, []);
+  return <>index</>;
 };
 
 export default Index;
