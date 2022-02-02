@@ -16,7 +16,7 @@ import {
 import Header from "../ui/header/header";
 import SButton from "../ui/button/base-button";
 
-const Detail = () => {
+const DetailPage = () => {
   const { todos } = useContext(AppContext);
   const [todo, setTodo] = useState(null);
   const router = useRouter();
@@ -84,4 +84,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default DetailPage;

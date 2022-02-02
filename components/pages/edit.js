@@ -17,7 +17,7 @@ import {
 import Header from "../ui/header/header";
 import SButton from "../ui/button/base-button";
 
-const Edit = () => {
+const EditPage = () => {
   const { todos } = useContext(AppContext);
   const [todo, setTodo] = useState(null);
   const router = useRouter();
@@ -104,4 +104,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditPage;
