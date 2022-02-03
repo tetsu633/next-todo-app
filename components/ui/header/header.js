@@ -2,7 +2,7 @@ import { Box, Heading } from "@chakra-ui/react";
 
 const Header = () => {
   return (
-    <Box backgroundColor="gray.500" p={2} mb={4}>
+    <Box backgroundColor="gray.500" p={2}>
       <Heading as="h1">NextJS</Heading>
     </Box>
   );

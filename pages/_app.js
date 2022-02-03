@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import AppContext from "../store/context";
-import { onSnapshot, collection } from "firebase/firestore";
-import { db } from "../firebase";
 import { ChakraProvider } from "@chakra-ui/provider";
 import { ColorModeProvider } from "@chakra-ui/react";
 import { theme } from "../theme";
 
 const App = ({ Component, pageProps }) => {
-  const [todos, setTodos] = useState();
-
-  useEffect(() => {
-    const unsub = onSnapshot(collection(db, "todos"), (querySnapshot) => {
-      setTodos(
-        querySnapshot.docs.map((doc) => {
-          return { docId: doc.id, ...doc.data() };
-        })
-      );
-    });
-    return () => unsub();
-  }, []);
+  const [todos, setTodos] = useState(null);
+  const [filterText, setFilterText] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   return (
     <React.StrictMode>
-      <AppContext.Provider value={{ todos }}>
+      <AppContext.Provider
+        value={{
+          todos,
+          setTodos,
+          currentUser,
+          setCurrentUser,
+          filterText,
+          setFilterText,
+        }}
+      >
         <ChakraProvider theme={theme}>
           <ColorModeProvider
             options={{ initialColorMode: true, useSystemColorMode: false }}

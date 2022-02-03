@@ -8,6 +8,7 @@ import {
   Input,
   Link,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -54,6 +55,15 @@ const SignInPage = () => {
             >
               Sign up
             </Button>
+          </Stack>
+
+          <Stack spacing={6}>
+            <Text align={"center"}>
+              Signup is Here{" "}
+              <Link color="blue.500" href="/todos/signup">
+                SignUp
+              </Link>
+            </Text>
           </Stack>
         </Stack>
       </Flex>

@@ -16,7 +16,7 @@ const TodoTableBody = (props) => {
 
   return (
     <>
-      {todos !== undefined &&
+      {todos !== null &&
         todos.map((todo) => (
           <Tr key={todo.id}>
             <Td>{todo.title}</Td>

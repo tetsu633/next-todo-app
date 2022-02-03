@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import AppContext from "../../../store/context";
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "../../../firebase";
 import {
   Box,
   Table,
@@ -12,9 +14,19 @@ import {
 } from "@chakra-ui/react";
 import TodoTableBody from "./todo-table-body";
 
-const TodoTable = ({ props }) => {
-  const { todos } = useContext(AppContext);
-  const { filterText } = props;
+const TodoTable = () => {
+  const { todos, setTodos, filterText } = useContext(AppContext);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "todos"), (querySnapshot) => {
+      setTodos(
+        querySnapshot.docs.map((doc) => {
+          return { docId: doc.id, ...doc.data() };
+        })
+      );
+    });
+    return () => unsub();
+  }, []);
 
   return (
     <Box>
@@ -30,7 +42,7 @@ const TodoTable = ({ props }) => {
         <Tbody>
           <TodoTableBody
             todos={
-              todos !== undefined && filterText !== ""
+              todos !== null && filterText !== ""
                 ? todos.filter((todo) => {
                     return todo.title.includes(filterText);
                   })

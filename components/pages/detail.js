@@ -8,13 +8,13 @@ import {
   Box,
   Flex,
   FormControl,
-  FormLabel,
   Input,
   Textarea,
   Stack,
 } from "@chakra-ui/react";
 import Header from "../ui/header/header";
 import SButton from "../ui/button/base-button";
+import SFormLabel from "../ui/label/form-label";
 
 const DetailPage = () => {
   const { todos } = useContext(AppContext);
@@ -40,27 +40,27 @@ const DetailPage = () => {
   };
 
   return (
-    <Box>
+    <Box maxH={"100vh"}>
       <Header />
-      {todo !== undefined && todo !== null && (
-        <>
-          <Stack>
+      {todo !== null && (
+        <Flex p={12} direction={"column"} align={"center"}>
+          <Stack w={"full"}>
             <FormControl isReadOnly>
-              <Flex px={16}>
-                <FormLabel w={16}>Title</FormLabel>
+              <Flex>
+                <SFormLabel>Title</SFormLabel>
                 <Input value={todo.title} userSelect="none" />
               </Flex>
             </FormControl>
             <FormControl isReadOnly>
-              <Flex px={16}>
-                <FormLabel w={16}>Detail</FormLabel>
+              <Flex>
+                <SFormLabel>Detail</SFormLabel>
                 <Textarea value={todo.detail} userSelect="none" />
               </Flex>
             </FormControl>
             <FormControl isReadOnly>
-              <Flex px={16}>
-                <FormLabel w={16}>Status</FormLabel>
-                <Input w={32} value={todo.status} userSelect="none" />
+              <Flex>
+                <SFormLabel>Status</SFormLabel>
+                <Input value={todo.status} userSelect="none" />
               </Flex>
             </FormControl>
             <Flex justifyContent="right">
@@ -78,7 +78,7 @@ const DetailPage = () => {
               </SButton>
             </Flex>
           </Stack>
-        </>
+        </Flex>
       )}
     </Box>
   );

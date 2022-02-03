@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 
 import { Box, Input } from "@chakra-ui/react";
 import SButton from "./button/base-button";
+import AppContext from "../../store/context";
 
-const TodoSearch = ({ props }) => {
-  const { setFilterText } = props;
+const TodoSearch = () => {
+  const { setFilterText } = useContext(AppContext);
   const inputElement = useRef();
 
   // フィルターボタン押下時の処理
