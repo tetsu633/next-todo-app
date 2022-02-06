@@ -9,7 +9,6 @@ import {
 import { auth } from "../../firebase";
 import {
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
@@ -62,29 +61,19 @@ const SignInPage = () => {
               />
             </FormControl>
           </Stack>
-
           <Stack spacing={6}>
-            <Stack
-              direction={{ base: "column", sm: "row" }}
-              align="start"
-              justifyContent="space-between"
-            >
-              <Checkbox>Remember me</Checkbox>
-              <Link color="blue.500">Forgot password?</Link>
-            </Stack>
             <Button
               colorScheme="blue"
               variant="solid"
-              onClick={() => onClickSignInButton()}
+              onClick={onClickSignInButton}
             >
               Sign in
             </Button>
           </Stack>
-
-          <Stack spacing={6}>
+          <Stack pt={6}>
             <Text align={"center"}>
               Signup is Here{" "}
-              <Link color="blue.500" href="/todos/signup">
+              <Link href="/todos/signup" color="blue.500">
                 SignUp
               </Link>
             </Text>

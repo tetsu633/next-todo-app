@@ -1,3 +1,6 @@
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 import {
   Button,
   Flex,
@@ -9,10 +12,22 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const SignUpPage = () => {
   const [cred, setCred] = useState({ mail: "", password: "" });
+  const router = useRouter();
+
+  const onClickSignUpButton = () => {
+    createUserWithEmailAndPassword(auth, cred.mail, cred.password)
+      .then(() => {
+        router.push("/");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
@@ -37,12 +52,11 @@ const SignUpPage = () => {
               />
             </FormControl>
           </Stack>
-
           <Stack spacing={6}>
             <Button
               colorScheme="blue"
               variant="solid"
-              onClick={() => alert("hoge")}
+              onClick={onClickSignUpButton}
             >
               Sign up
             </Button>
