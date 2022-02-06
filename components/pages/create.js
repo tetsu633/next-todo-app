@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -15,13 +15,15 @@ import {
 import Header from "../ui/header/header";
 import SButton from "../ui/button/base-button";
 import SFormLabel from "../ui/label/form-label";
+import AppContext from "../../store/context";
 
 const CreatePage = () => {
+  const { currentUser } = useContext(AppContext);
   const [todo, setTodo] = useState({
     title: "",
     detail: "",
     status: "未完了",
-    term: "",
+    userId: null,
   });
   const router = useRouter();
 
@@ -35,14 +37,12 @@ const CreatePage = () => {
       return id.length !== 0 ? Math.max(...id) : 0;
     });
 
-    const newTodo = { ...todo, id: lastId + 1 };
-    try {
-      await addDoc(collection(db, "todos"), newTodo)
-        .then(router.push("/"))
-        .catch((e) => console.log(e));
-    } catch (e) {
-      console.log(e);
-    }
+    const newTodo = { ...todo, id: lastId + 1, userId: currentUser.uid };
+    await addDoc(collection(db, "todos"), newTodo)
+      .then(router.push("/"))
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   // 戻るボタン押下時の処理

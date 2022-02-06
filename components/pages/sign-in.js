@@ -1,3 +1,12 @@
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+import {
+  browserSessionPersistence,
+  setPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../firebase";
 import {
   Button,
   Checkbox,
@@ -10,10 +19,25 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 const SignInPage = () => {
   const [cred, setCred] = useState({ mail: "", password: "" });
+  const router = useRouter();
+
+  // サインインボタン押下時の処理
+  const onClickSignInButton = async () => {
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(auth, cred.mail, cred.password);
+      })
+      .then(() => {
+        router.push("/");
+      })
+      .catch((e) => {
+        console.log("errorCode", e.errorCode);
+        console.log("errorMessage", e.errorMessage);
+      });
+  };
 
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
@@ -51,9 +75,9 @@ const SignInPage = () => {
             <Button
               colorScheme="blue"
               variant="solid"
-              onClick={() => alert("hoge")}
+              onClick={() => onClickSignInButton()}
             >
-              Sign up
+              Sign in
             </Button>
           </Stack>
 

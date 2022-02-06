@@ -4,9 +4,15 @@ const SFormLabel = (props) => {
   const { children, htmlFor } = props;
 
   return (
-    <FormLabel w={16} htmlFor={htmlFor !== undefined && htmlFor}>
-      {children}
-    </FormLabel>
+    <>
+      {htmlFor !== undefined ? (
+        <FormLabel w={16} htmlFor={htmlFor}>
+          {children}
+        </FormLabel>
+      ) : (
+        <FormLabel w={16}>{children}</FormLabel>
+      )}
+    </>
   );
 };
 

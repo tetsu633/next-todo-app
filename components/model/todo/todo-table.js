@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 
-import AppContext from "../../../store/context";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
 import {
   Box,
@@ -13,19 +12,26 @@ import {
   Tbody,
 } from "@chakra-ui/react";
 import TodoTableBody from "./todo-table-body";
+import AppContext from "../../../store/context";
 
 const TodoTable = () => {
-  const { todos, setTodos, filterText } = useContext(AppContext);
+  const { todos, setTodos, filterText, currentUser } = useContext(AppContext);
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "todos"), (querySnapshot) => {
-      setTodos(
-        querySnapshot.docs.map((doc) => {
-          return { docId: doc.id, ...doc.data() };
-        })
+    if (currentUser !== null) {
+      const q = query(
+        collection(db, "todos"),
+        where("userId", "==", currentUser.uid)
       );
-    });
-    return () => unsub();
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        setTodos(
+          querySnapshot.docs.map((doc) => {
+            return { docId: doc.id, ...doc.data() };
+          })
+        );
+      });
+      return () => unsub();
+    }
   }, []);
 
   return (

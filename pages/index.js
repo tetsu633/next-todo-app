@@ -1,16 +1,26 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import IndexPage from "../components/pages";
+import AppContext from "../store/context";
 
 const Index = () => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const { currentUser, setCurrentUser } = useContext(AppContext);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   currentUser === "" && router.push("/signup");
-  // }, []);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        router.push("/signup");
+      }
+    });
+  }, []);
 
-  return <IndexPage />;
+  return <>{currentUser !== null && <IndexPage />}</>;
 };
 
 export default Index;
