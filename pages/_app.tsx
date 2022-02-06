@@ -1,3 +1,4 @@
+import { AppProps } from "next/app";
 import React, { useState } from "react";
 
 import AppContext from "../store/context";
@@ -5,7 +6,7 @@ import { ChakraProvider } from "@chakra-ui/provider";
 import { ColorModeProvider } from "@chakra-ui/react";
 import { theme } from "../theme";
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   const [todos, setTodos] = useState(null);
   const [filterText, setFilterText] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,7 +25,7 @@ const App = ({ Component, pageProps }) => {
       >
         <ChakraProvider theme={theme}>
           <ColorModeProvider
-            options={{ initialColorMode: true, useSystemColorMode: false }}
+            options={{ initialColorMode: "light", useSystemColorMode: false }}
           />
           <Component {...pageProps} />
         </ChakraProvider>
